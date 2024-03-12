@@ -6,7 +6,6 @@ import { Schema, model } from "mongoose";
 const UserSchema = new Schema({
   userName: {
     type: String,
-    unique: true,
     default: "bookReader",
   },
   email: {
@@ -16,7 +15,6 @@ const UserSchema = new Schema({
       message: "Must be a Valid email",
     },
     lowercase: true,
-    unique: true,
     match: [/\S+@\S+\.\S+/, "is invalid"],
     index: true,
     trim: true,
@@ -37,13 +35,13 @@ const UserSchema = new Schema({
   },
 });
 
-UserSchema.pre("save", async function (next) {
-  if (!this.password || !this.isModified("password")) return next;
-  const HASH = process.env.HASH || "";
-  //@ts-ignore
-  this.password = await bcrypt.hash(this.password, parseInt(HASH, 10));
-  next();
-});
+// UserSchema.pre("save", async function (next) {
+//   if (!this.password || !this.isModified("password")) return next;
+//   const HASH = process.env.HASH || "";
+//   //@ts-ignore
+//   this.password = await bcrypt.hash(this.password, parseInt(HASH, 10));
+//   next();
+// });
 
 UserSchema.methods.toJSON = function () {
   const user = this;
@@ -76,6 +74,7 @@ const findByQuery = async (query) => {
  */
 const saveRecord = async (user) => {
   const userInstance = new UserModel(user);
+  console.log({ user, userInstance });
   await userInstance.save();
   await userInstance.toJSON();
   return userInstance;

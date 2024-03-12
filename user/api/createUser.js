@@ -23,7 +23,7 @@ export const UserCreate = async (req, res) => {
   }
 
   body.email = body.email.trim().toLowerCase();
-
+  let user;
   try {
     user = await saveRecord(body);
   } catch (e) {

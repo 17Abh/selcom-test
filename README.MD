@@ -14,6 +14,33 @@ login steps
 
 3. use the jwt token in header for books apis
 
-Books apis
-add book api done
-rest of the apis are in progress
+4. Api to add a book "/api/v1/book/add"
+
+example payload for apis
+
+1.  create user : {
+    "email":"test@test.com",
+    "password":"testtest",
+    "userName":"1111"
+    }
+
+2.  login user : {
+    "email":"test@test.com",
+    "password":"testtest",
+    }
+
+this will give Authorization token in response
+
+3.  create book : - use Authorization token in header with key "Authorization"
+    {
+    "title":"test1",
+    "author":"ccs",
+    "genre":"one",
+    "price": 22
+    }
+
+Routes:
+update book (put):"api/v1/book/:id"
+get book (get):"api/v1/book/:id"
+delete book (delete):"api/v1/book/:id"
+get all books (get) :"api/v1/book/all"

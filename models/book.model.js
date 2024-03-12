@@ -37,6 +37,21 @@ const BookSchema = new Schema({
 const BookModel = model("book", BookSchema);
 
 /**
+ * Function to find record from database and updating it
+ * @param data , data that is to be updated
+ * @param bookId , Id of the user whose field is to be updated
+ */
+const bookUpdate = async (data, bookId) => {
+  return BookModel.findByIdAndUpdate(
+    bookId,
+    {
+      $set: { ...data, updatedAt: Date.now() },
+    },
+    { new: true }
+  ).lean();
+};
+
+/**
  *Function to save the validated details of the book
  * @param book, book validated details
  * @return updated book details after saving in database
@@ -48,4 +63,4 @@ const saveRecord = async (book) => {
   return bookInstance;
 };
 
-export { BookModel, saveRecord };
+export { BookModel, saveRecord, bookUpdate };

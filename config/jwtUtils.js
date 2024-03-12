@@ -5,7 +5,7 @@ import { UserModel } from "../models/user.model.js";
 const PREFIX = "USER | TOKEN | VERIFICATION | ";
 
 // JWT key
-const jwtKey = process.env.JWT_KEY ?? "";
+const jwtKey = process.env.JWT_KEY ?? "test";
 
 /**
  * Function to generate a jwt token for a user

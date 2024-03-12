@@ -1,5 +1,6 @@
 import { generateAuthToken } from "../../config/jwtUtils.js";
 import { httpStatusCode, messages } from "../../constants/index.js";
+import { findByQuery } from "../../models/user.model.js";
 
 const PREFIX = "USER | API | LOGIN: ";
 
@@ -17,6 +18,7 @@ export const userLogin = async (req, res) => {
 
   try {
     user = await findByQuery({ email });
+    console.log({ user });
     if (!user) {
       return res.status(httpStatusCode.BAD_REQUEST).send({
         message: messages.USER_NOT_FOUND,
@@ -34,10 +36,9 @@ export const userLogin = async (req, res) => {
     token = await generateAuthToken({
       id: user?._id,
       email: user?.email ?? "",
-      name: user?.firstName ?? "",
     });
   } catch (e) {
-    logger.info(`${PREFIX} generating authorization token failed: ${e}`);
+    console.log(`${PREFIX} generating authorization token failed: ${e}`);
     return res.status(httpStatusCode.INTERNAL_SERVER).send({
       message: messages.INTERNAL_SERVER,
     });
@@ -45,7 +46,7 @@ export const userLogin = async (req, res) => {
 
   return res.status(httpStatusCode.OK).send({
     data: {
-      restrictedUserInfo,
+      user,
       authorizationToken: token,
     },
   });
